@@ -10,93 +10,93 @@ This application transforms natural language requests into SQL queries and prese
 - Database querying and result display
 - Docker support for one-command deployment
 
-## Швидкий старт з Docker
+## Quick Start with Docker
 
-Найпростіший спосіб запустити додаток - використовувати Docker:
+The easiest way to run the application is using Docker:
 
-1. Отримайте безкоштовний API ключ від Groq на [console.groq.com](https://console.groq.com/)
+1. Get a free API key from Groq at [console.groq.com](https://console.groq.com/)
 
-2. Створіть директорію для даних і переконайтеся, що у вас є відповідні права:
+2. Create a data directory and ensure you have appropriate permissions:
    ```bash
    mkdir -p data
    chmod 777 data
    ```
 
-3. Створіть файл `.env` в корені проекту:
+3. Create a `.env` file in the project root:
    ```dotenv
-   GROQ_API_KEY=ваш_ключ_groq_тут
+   GROQ_API_KEY=your_groq_api_key_here
    ```
 
-4. Запустіть додаток однією командою:
+4. Start the application with a single command:
    ```bash
    docker compose up -d
    ```
-   > Примітка: Використовуйте `docker compose` (без дефісу) для сучасних версій Docker.
+   > Note: Use `docker compose` (without hyphen) for modern Docker versions.
 
-5. Відкрийте:
-   - Веб-інтерфейс (Streamlit): http://localhost:8501
-   - API документація: http://localhost:8000/api/v1/docs
+5. Open:
+   - Web interface (Streamlit): http://localhost:8501
+   - API documentation: http://localhost:8000/api/v1/docs
 
-6. Для зупинки додатку:
+6. To stop the application:
    ```bash
    docker compose down
    ```
 
-7. Якщо у вас є проблеми:
-   - Перевірте логи: `docker compose logs`
-   - Переконайтеся, що директорія `data` має повні права доступу
-   - Переконайтеся, що ви правильно налаштували ключ Groq API
+7. If you have issues:
+   - Check logs: `docker compose logs`
+   - Make sure the `data` directory has full access permissions
+   - Ensure you've configured the Groq API key correctly
 
-Дані зберігаються в локальній директорії `./data`, тому вони не будуть втрачені при перезапуску контейнера.
+Data is stored in the local `./data` directory, so it won't be lost when restarting the container.
 
-Все готово! Тепер ви можете використовувати додаток.
+All done! Now you can use the application.
 
-## Ручне встановлення (без Docker)
+## Manual Installation (without Docker)
 
-1. Встановіть залежності:
+1. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Налаштуйте файл `.env`:
+2. Configure the `.env` file:
    ```
-   # Виберіть "groq" (безкоштовно) або "openai"
+   # Choose "groq" (free) or "openai"
    LLM_PROVIDER=groq
-   # Для Groq
-   GROQ_API_KEY=ваш_ключ_groq_тут
-   # Для OpenAI (тільки якщо використовуєте OpenAI)
+   # For Groq
+   GROQ_API_KEY=your_groq_api_key_here
+   # For OpenAI (only if using OpenAI)
    OPENAI_API_KEY=
 
-   # Налаштування бази даних
+   # Database settings
    DATABASE_URL=sqlite:///./app.db
    APP_ENV=development
    ```
 
-3. Ініціалізуйте базу даних:
+3. Initialize the database:
    ```bash
    python app/db/init_db.py
    ```
 
-4. Запустіть додаток:
+4. Run the application:
    ```bash
-   # Запустіть API сервер
+   # Start the API server
    uvicorn app.main:app --host 0.0.0.0 --port 8000
    
-   # В окремому терміналі запустіть Streamlit фронтенд
+   # In a separate terminal, start the Streamlit frontend
    streamlit run app/frontend/app.py
    ```
 
-## Використання
+## Usage
 
-1. Введіть запит природною мовою, наприклад:
-   - "Покажи всіх клієнтів"
-   - "Знайди замовлення з загальною сумою більше 100"
-   - "Покажи клієнтів, які зробили замовлення за останні 7 днів"
+1. Enter a natural language query, for example:
+   - "Show all customers"
+   - "Find orders with a total amount greater than 100"
+   - "Show customers who made orders in the last 7 days"
 
-2. Додаток:
-   - Перетворить ваш запит у SQL за допомогою обраного провайдера LLM
-   - Виконає запит до бази даних
-   - Покаже вам SQL запит, пояснення та результати
+2. The application will:
+   - Convert your query to SQL using the selected LLM provider
+   - Execute the query against the database
+   - Show you the SQL query, explanation, and results
 - Free cloud API option using Groq
 
 ## LLM Providers
